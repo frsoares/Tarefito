@@ -11,7 +11,7 @@ import SwiftUI
 struct TarefitoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListaDeTarefasView()
         }
     }
 }
