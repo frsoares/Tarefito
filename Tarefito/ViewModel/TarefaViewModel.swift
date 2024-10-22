@@ -1,5 +1,5 @@
 //
-//  Backlog.swift
+//  TarefaViewModel.swift
 //  Tarefito
 //
 //  Created by Francisco Miranda Soares on 22/10/24.
@@ -8,8 +8,20 @@
 import SwiftUI
 
 @Observable
-class Backlog {
-    var tarefas: [Tarefa] = []
+class TarefaViewModel {
+
+    private var tarefas: [Tarefa] = []
+
+    // Expor as tarefas processadas para a View
+    var tarefasExibidas: [TarefaExibida] {
+        tarefas.map { tarefa in
+            TarefaExibida(
+                id: tarefa.id,
+                titulo: tarefa.titulo,
+                estaConcluida: tarefa.estaConcluida
+            )
+        }
+    }
 
     func adicionarTarefa(titulo: String) {
         let novaTarefa = Tarefa(titulo: titulo)

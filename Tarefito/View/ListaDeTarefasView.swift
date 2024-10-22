@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ListaDeTarefasView: View {
-    @State private var backlog = Backlog()
+    @State private var viewModel = TarefaViewModel()
     @State private var novoTitulo = ""
 
     var body: some View {
@@ -17,7 +17,7 @@ struct ListaDeTarefasView: View {
             HStack {
                 TextField("Nova tarefa", text: $novoTitulo)
                 Button(action: {
-                    backlog.adicionarTarefa(titulo: novoTitulo)
+                    viewModel.adicionarTarefa(titulo: novoTitulo)
                     novoTitulo = ""  // Limpa o campo após adicionar
                 }) {
                     Text("Adicionar")
@@ -25,14 +25,14 @@ struct ListaDeTarefasView: View {
             }
             .padding()
 
-            // Lista de tarefas
+            // Lista de tarefas com dados fornecidos pelo ViewModel
             List {
-                ForEach(backlog.tarefas) { tarefa in
+                ForEach(viewModel.tarefasExibidas) { tarefa in
                     HStack {
                         Text(tarefa.titulo)
                         Spacer()
                         Button(action: {
-                            backlog.marcarComoConcluida(id: tarefa.id)
+                            viewModel.marcarComoConcluida(id: tarefa.id)
                         }) {
                             Image(systemName: tarefa.estaConcluida ? "checkmark.circle.fill" : "circle")
                         }
@@ -40,8 +40,8 @@ struct ListaDeTarefasView: View {
                 }
                 .onDelete { indexSet in
                     for index in indexSet {
-                        let tarefa = backlog.tarefas[index]
-                        backlog.removerTarefa(id: tarefa.id)
+                        let tarefa = viewModel.tarefasExibidas[index]
+                        viewModel.removerTarefa(id: tarefa.id)
                     }
                 }
             }
